@@ -60,7 +60,7 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
             {painting.medium} {painting.dimensions && <span className="text-zinc-300 mx-1">|</span>} {painting.dimensions}
           </p>
         </div>
-        <p className="text-sm font-semibold text-zinc-900">${painting.price}</p>
+        {/* <p className="text-sm font-semibold text-zinc-900">${painting.price}</p> */}
       </div>
     </Link>
   );

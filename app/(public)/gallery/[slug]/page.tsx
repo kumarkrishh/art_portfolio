@@ -84,9 +84,9 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
 
           {/* Call to Action Buttons */}
           <div className="space-y-4 mt-auto">
-            <button className="w-full bg-zinc-900 text-white rounded-full py-4 text-sm font-medium hover:bg-zinc-800 transition-all duration-200 shadow-sm hover:shadow-md tracking-wide">
+            {/* <button className="w-full bg-zinc-900 text-white rounded-full py-4 text-sm font-medium hover:bg-zinc-800 transition-all duration-200 shadow-sm hover:shadow-md tracking-wide">
               Add to Cart
-            </button>
+            </button> */}
             <button className="w-full bg-white text-zinc-900 border border-zinc-200 rounded-full py-4 text-sm font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 tracking-wide">
               Save Artwork ♡
             </button>

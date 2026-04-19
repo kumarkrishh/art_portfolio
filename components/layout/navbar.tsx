@@ -28,9 +28,9 @@ export function Navbar() {
 
         {/* Right Side: Cart & Menu */}
         <div className="flex items-center gap-6">
-          <button className="text-sm font-medium text-zinc-900 hover:text-zinc-600 transition-colors">
+          {/* <button className="text-sm font-medium text-zinc-900 hover:text-zinc-600 transition-colors">
             Cart (0)
-          </button>
+          </button> */}
           {/* Mobile Menu Icon */}
           <button className="md:hidden text-zinc-900">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
