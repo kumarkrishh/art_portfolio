@@ -7,6 +7,7 @@ import { artworks } from "@/lib/data";
 export default function GalleryPage() {
   // 1. State to track which size is currently selected
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<"featured" | "title-asc" | "title-desc">("title-asc");
   
   // NEW: State to track if filters are visible
   const [showFilters, setShowFilters] = useState(true);
@@ -24,8 +25,20 @@ export default function GalleryPage() {
     return true; 
   });
 
-  // 4. Map the filtered data
-  const formattedArtworks: Painting[] = filteredArtworks.map((art) => ({
+  const sortedArtworks = [...filteredArtworks].sort((a, b) => {
+    if (sortBy === "title-asc") {
+      return a.title.localeCompare(b.title);
+    }
+
+    if (sortBy === "title-desc") {
+      return b.title.localeCompare(a.title);
+    }
+
+    return 0;
+  });
+
+  // 4. Map the filtered + sorted data
+  const formattedArtworks: Painting[] = sortedArtworks.map((art) => ({
     id: art.id,
     slug: art.id, 
     title: art.title,
@@ -139,11 +152,16 @@ export default function GalleryPage() {
           <div className="flex justify-end mb-8">
             <div className="flex items-center gap-4">
               <span className="text-xs text-zinc-500 uppercase tracking-widest">Sort</span>
-              <select className="text-sm border-zinc-200 rounded-none py-2 pl-3 pr-8 focus:ring-zinc-900 focus:border-zinc-900 bg-transparent">
-                <option>Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest</option>
+              <select
+                value={sortBy}
+                onChange={(event) =>
+                  setSortBy(event.target.value as "featured" | "title-asc" | "title-desc")
+                }
+                className="text-sm border-zinc-200 rounded-none py-2 pl-3 pr-8 focus:ring-zinc-900 focus:border-zinc-900 bg-transparent"
+              >
+                <option value="featured">Featured</option>
+                <option value="title-asc">Title: A–Z</option>
+                <option value="title-desc">Title: Z–A</option>
               </select>
             </div>
           </div>
