@@ -14,7 +14,7 @@ export function Footer() {
               className="text-3xl text-zinc-900 tracking-wide mb-6 inline-block hover:opacity-70 transition-opacity duration-300"
               style={{ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' }}
             >
-              Sree Art.
+              Sree's Art
             </Link>
             <p className="text-sm text-zinc-500 leading-relaxed max-w-sm font-light">
               Original paintings and premium fine art prints. Exploring light, texture, and the natural world through deliberate brushwork.
