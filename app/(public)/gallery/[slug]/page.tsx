@@ -29,24 +29,26 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
           
           {/* Vertical Thumbnails */}
           <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible pb-2 md:pb-0 hide-scrollbar">
-            <button className="flex-shrink-0 w-20 h-28 relative bg-zinc-50 border transition-all border-zinc-900">
+            <button className="flex-shrink-0 w-20 h-28 relative bg-[#F9F8F6] rounded-sm overflow-hidden border transition-all border-zinc-900">
               <img 
                 src={painting.image_url} 
                 alt={`${painting.title} thumbnail`} 
-                className="absolute inset-0 w-full h-full object-cover p-1.5"
+                // Added mix-blend-multiply here
+                className="absolute inset-0 w-full h-full object-cover p-1.5 mix-blend-multiply"
               />
             </button>
           </div>
 
           {/* Main Large Image */}
           <div className="flex-1 flex justify-center lg:justify-start">
-            <div className="relative h-[60vh] lg:h-[75vh] max-h-[800px] w-full bg-white shadow-[0_4px_40px_rgba(0,0,0,0.03)] border border-zinc-100 p-6 lg:p-12">
-              <div className="relative w-full h-full bg-zinc-50 border border-zinc-200/50 shadow-sm">
-                {/* FIXED: Comment safely outside! */}
+            {/* Replaced the harsh white double-box with a single, elegant warm studio backdrop */}
+            <div className="relative h-[60vh] lg:h-[75vh] max-h-[800px] w-full bg-[#F9F8F6] rounded-sm overflow-hidden p-6 lg:p-12">
+              <div className="relative w-full h-full">
                 <img
                   src={painting.image_url}
                   alt={painting.title}
-                  className="absolute inset-0 w-full h-full object-contain p-4 lg:p-8"
+                  // Added mix-blend-multiply so the art sinks beautifully into the warm background
+                  className="absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm"
                 />
               </div>
             </div>
@@ -84,9 +86,6 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
 
           {/* Call to Action Buttons */}
           <div className="space-y-4 mt-auto">
-            {/* <button className="w-full bg-zinc-900 text-white rounded-full py-4 text-sm font-medium hover:bg-zinc-800 transition-all duration-200 shadow-sm hover:shadow-md tracking-wide">
-              Add to Cart
-            </button> */}
             <button className="w-full bg-white text-zinc-900 border border-zinc-200 rounded-full py-4 text-sm font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 tracking-wide">
               Save Artwork ♡
             </button>

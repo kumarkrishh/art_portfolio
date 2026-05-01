@@ -13,7 +13,6 @@ export default function AboutPage() {
               alt="Portrait of Sree"
               fill
               priority
-              // Changed from object-bottom to object-center, and added p-8 so it floats beautifully in the middle
               className="object-contain object-center drop-shadow-md p-8"
               sizes="(min-width: 1024px) 40vw, 90vw"
             />
@@ -33,15 +32,24 @@ export default function AboutPage() {
             Meet <span className="italic font-light text-zinc-500">Sree.</span>
           </h1>
 
-          <div className="space-y-8 text-zinc-600 font-light leading-relaxed text-[15px]">
-            <p className="text-xl text-zinc-800 font-normal leading-snug">
-              I am a contemporary painter focused on exploring the relationship between light, texture, and natural environments.
+          <div className="space-y-6 text-zinc-600 font-light leading-relaxed text-[15px]">
+            {/* Lead-in sentence */}
+            <p className="text-xl text-zinc-800 font-normal leading-snug mb-2">
+              I am a self-taught artist whose creative process is deeply intuitive. 
+            </p>
+            
+            {/* Body paragraphs */}
+            <p>
+              I follow my heart across the canvas, allowing color, texture, and emotion to guide each piece. For me, expression is at the center of every painting — each brushstroke becoming a conversation between feeling, memory, and the canvas itself.
             </p>
             <p>
-              Working primarily in oils and mixed media, my process is intuitive and heavily inspired by the coastal landscapes and shifting seasons of my home. Each piece is an attempt to capture a fleeting atmospheric moment and translate it into a permanent visual record.
+              Nature is my greatest inspiration. I find myself continually drawn to nature’s beauty, rhythm, and quiet presence. I believe this connection is sacred, deeply divine, and painting is my way of honoring that connection. Working across acrylics, watercolor, mixed media, and textured surfaces, I explore the layers of emotion and experience that shape how we see and remember the world around us.
             </p>
             <p>
-              When I'm not in the studio, you can usually find me gathering reference materials out in nature or exploring new material techniques.
+              Each piece I create carries its own story — a moment, a memory, a place, or a feeling held in time. My hope is that viewers find something personal within my work: a reflection of their own journey, a sense of peace, stillness or a connection that speaks to the heart.
+            </p>
+            <p>
+              When I’m not in the studio, I am often outdoors gathering inspiration from nature, collecting reference materials, or exploring new techniques and materials that continue to shape and evolve my artistic practice.
             </p>
           </div>
         </div>

@@ -41,13 +41,14 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
 
   return (
     <Link href={`/gallery/${painting.slug}`} className="group flex flex-col gap-2">
-      <div className="relative aspect-[4/5] w-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-zinc-100 p-4 transition-all duration-500 ease-out group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] group-hover:-translate-y-1">
-        <div className="relative w-full h-full bg-zinc-50 border border-zinc-200/50 flex items-center justify-center">
+      {/* Replaced the harsh white double-box with a clean, elegant warm studio backdrop */}
+      <div className="relative aspect-[4/5] w-full bg-[#F9F8F6] rounded-sm overflow-hidden transition-all duration-500 ease-out group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] group-hover:-translate-y-1">
+        <div className="relative w-full h-full flex items-center justify-center">
           <img
             src={painting.imageUrl}
             alt={painting.title}
-            // Apply the dynamic padding here
-            className={`absolute inset-0 w-full h-full object-contain ${imagePaddingClass}`}
+            // Added mix-blend-multiply and drop-shadow-sm so it sinks naturally into the canvas
+            className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm ${imagePaddingClass}`}
           />
         </div>
       </div>
@@ -60,7 +61,7 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
             {painting.medium} {painting.dimensions && <span className="text-zinc-300 mx-1">|</span>} {painting.dimensions}
           </p>
         </div>
-        {/* <p className="text-sm font-semibold text-zinc-900">${painting.price}</p> */}
+        <p className="text-sm font-semibold text-zinc-900">${painting.price}</p>
       </div>
     </Link>
   );
