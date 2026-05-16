@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 // Import your fonts (Inter/Playfair/etc) as you had them before...
 import "./globals.css";
 
@@ -34,7 +35,8 @@ export default function RootLayout({
         
         {/* 3. The Footer anchors to the bottom */}
         <Footer />
-        
+
+        <Analytics />
       </body>
     </html>
   );
