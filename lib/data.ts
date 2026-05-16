@@ -36,7 +36,7 @@ export const artworks = [
     title: 'Sunbeam over Blue Waters',
     price: 165,
     collection: 'Studio Collection',
-    medium: 'Acrylic on Canvas',
+    medium: 'Mixed Media',
     dimensions: '12 x 9 in', // Portrait
     description: "A dramatic seascape highlighting a brilliant sunburst breaking through the clouds. The radiant light creates a striking reflection across the deep blue, cresting ocean waves.", //
     image_url: '/artworks/sunbreak.jpeg',
@@ -85,8 +85,9 @@ export const artworks = [
     id: 'bamboo-study-ii',
     title: 'Gentle Leaves Steady Stalk',
     price: 135,
+    isSold: true,
     collection: 'Studio Collection',
-    medium: 'Acrylic on Paper',
+    medium: 'Watercolor on Paper',
     dimensions: '12 x 9 in', // Portrait
     description: "A minimalist botanical study featuring slender green bamboo stalks and delicate leaves against a clean, light background, emphasizing negative space and elegant line work.", //
     image_url: '/artworks/bamboo-study-ii.jpeg',
@@ -95,6 +96,7 @@ export const artworks = [
     id: 'bamboo-study-iii',
     title: 'Grace Wrapped in Green',
     price: 145,
+    isSold: true,
     collection: 'Studio Collection',
     medium: 'Acrylic on Canvas',
     dimensions: '12 x 9 in', // Portrait
@@ -115,6 +117,7 @@ export const artworks = [
     id: 'beach-study',
     title: 'Sweet Whispers by the Sea',
     price: 145,
+    isSold: true,
     collection: 'Studio Collection',
     medium: 'Acrylic on Canvas',
     dimensions: '12 x 9 in', // Portrait
@@ -171,11 +174,10 @@ export const artworks = [
     description: "A serene autumn woodland scene focusing on the striking contrast of white birch trunks and vibrant golden canopies against a soft, atmospheric background.", //
     image_url: '/artworks/autumn-whisper.jpeg',
   },
-  // NEW ADDITIONS BELOW
   {
     id: 'quiet-evening-lake',
-    title: 'Quiet Evening by the Lake',
-    price: 185,
+    title: 'Sunset at Almaden Lake',
+    price: 125,
     collection: 'Studio Collection',
     medium: 'Acrylic on Paper',
     dimensions: '9 x 12 in', // Landscape (9h x 12w)

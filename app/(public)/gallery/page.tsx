@@ -51,7 +51,13 @@ export default function GalleryPage() {
     return true; 
   });
 
+  // Updated Sorting Logic: Pushes Sold Items to Bottom
   const sortedArtworks = [...filteredArtworks].sort((a, b) => {
+    // 1. Sort by Availability (Available first, Sold last)
+    if (a.isSold && !b.isSold) return 1;
+    if (!a.isSold && b.isSold) return -1;
+
+    // 2. Then apply the selected sorting method
     if (sortBy === "title-asc") {
       return a.title.localeCompare(b.title);
     }
@@ -76,6 +82,7 @@ export default function GalleryPage() {
     price: art.price,
     imageUrl: art.image_url, 
     dimensions: art.dimensions, 
+    isSold: art.isSold,
   }));
 
   const activeSortLabel = SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label;
@@ -109,7 +116,6 @@ export default function GalleryPage() {
           <div className="sticky top-28 space-y-8">
             
             <div className="flex items-center justify-between gap-6">
-              {/* Upgraded Filter Toggle Button */}
               <button 
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center gap-2 bg-white border border-zinc-200 text-zinc-900 text-sm rounded-full py-2 px-4 hover:border-zinc-300 hover:bg-zinc-50 transition-colors whitespace-nowrap focus:outline-none"

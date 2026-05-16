@@ -9,13 +9,12 @@ export type Painting = {
   price: number;
   imageUrl: string;
   dimensions?: string; 
+  isSold?: boolean; 
 };
 
-// Helper function to calculate a dynamic "matte" (padding) based on physical size
 function getDynamicPadding(dimensions?: string) {
-  if (!dimensions) return "p-5"; // Default
+  if (!dimensions) return "p-5"; 
 
-  // Extract the numbers from strings like "10.5 x 13.5 in"
   const matches = dimensions.match(/\d+(\.\d+)?/g);
   if (!matches || matches.length < 2) return "p-5";
 
@@ -23,32 +22,29 @@ function getDynamicPadding(dimensions?: string) {
   const height = parseFloat(matches[1]);
   const squareInches = width * height;
 
-  // Small pieces (e.g., 8x10, 9x12, 10.5x13.5) get a wide matte
   if (squareInches <= 150) {
     return "p-8 md:p-10"; 
   }
-  // Medium pieces (e.g., 14x18, 18x24) get a standard matte
   if (squareInches > 150 && squareInches < 500) {
     return "p-5 md:p-6";
   }
-  // Large pieces (e.g., 18x36, 24x36) fill the frame
   return "p-2 md:p-3";
 }
 
 export function ArtworkCard({ painting }: { painting: Painting }) {
-  // Get our calculated padding class
   const imagePaddingClass = getDynamicPadding(painting.dimensions);
 
   return (
     <Link href={`/gallery/${painting.slug}`} className="group flex flex-col gap-2">
-      {/* Replaced the harsh white double-box with a clean, elegant warm studio backdrop */}
       <div className="relative aspect-[4/5] w-full bg-[#F9F8F6] rounded-sm overflow-hidden transition-all duration-500 ease-out group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] group-hover:-translate-y-1">
+        
+        {/* Top-left badge removed to prevent double "Sold" text */}
+
         <div className="relative w-full h-full flex items-center justify-center">
           <img
             src={painting.imageUrl}
             alt={painting.title}
-            // Added mix-blend-multiply and drop-shadow-sm so it sinks naturally into the canvas
-            className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm ${imagePaddingClass}`}
+            className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm ${imagePaddingClass} ${painting.isSold ? 'opacity-85' : ''}`}
           />
         </div>
       </div>
@@ -61,7 +57,15 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
             {painting.medium} {painting.dimensions && <span className="text-zinc-300 mx-1">|</span>} {painting.dimensions}
           </p>
         </div>
-        <p className="text-sm font-semibold text-zinc-900">${painting.price}</p>
+        
+        {/* Keeping the elegant price replacement */}
+        <p className="text-sm font-semibold text-zinc-900">
+          {painting.isSold ? (
+            <span className="text-zinc-400 font-normal italic">Sold</span>
+          ) : (
+            `$${painting.price}`
+          )}
+        </p>
       </div>
     </Link>
   );

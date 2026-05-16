@@ -11,6 +11,10 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
     notFound();
   }
 
+  // Pre-fill the email subject and body
+  const emailSubject = encodeURIComponent(`Inquiry regarding: ${painting.title}`);
+  const emailBody = encodeURIComponent(`Hello Sree,\n\nI am interested in purchasing "${painting.title}". Could you please provide more information on availability, shipping, and the purchasing process?\n\nThank you!`);
+
   return (
     <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-12 py-6 lg:py-8">
       
@@ -33,22 +37,19 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
               <img 
                 src={painting.image_url} 
                 alt={`${painting.title} thumbnail`} 
-                // Added mix-blend-multiply here
-                className="absolute inset-0 w-full h-full object-cover p-1.5 mix-blend-multiply"
+                className={`absolute inset-0 w-full h-full object-cover p-1.5 mix-blend-multiply ${painting.isSold ? 'opacity-85' : ''}`}
               />
             </button>
           </div>
 
           {/* Main Large Image */}
           <div className="flex-1 flex justify-center lg:justify-start">
-            {/* Replaced the harsh white double-box with a single, elegant warm studio backdrop */}
             <div className="relative h-[60vh] lg:h-[75vh] max-h-[800px] w-full bg-[#F9F8F6] rounded-sm overflow-hidden p-6 lg:p-12">
               <div className="relative w-full h-full">
                 <img
                   src={painting.image_url}
                   alt={painting.title}
-                  // Added mix-blend-multiply so the art sinks beautifully into the warm background
-                  className="absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm"
+                  className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm ${painting.isSold ? 'opacity-85' : ''}`}
                 />
               </div>
             </div>
@@ -61,7 +62,10 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
           <h1 className="text-4xl md:text-5xl font-serif text-zinc-900 mb-2">{painting.title}</h1>
           <p className="text-zinc-500 mb-6 text-lg">{painting.collection}</p>
           
-          <p className="text-2xl font-semibold text-zinc-900 mb-8">${painting.price}</p>
+          {/* Updated Price to reflect "Sold" status */}
+          <p className="text-2xl font-semibold text-zinc-900 mb-8">
+            {painting.isSold ? <span className="italic text-zinc-500 font-normal">Sold</span> : `$${painting.price}`}
+          </p>
           
           <div className="w-12 h-[1px] bg-zinc-200 mb-8"></div>
           
@@ -86,9 +90,31 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
 
           {/* Call to Action Buttons */}
           <div className="space-y-4 mt-auto">
-            <button className="w-full bg-white text-zinc-900 border border-zinc-200 rounded-full py-4 text-sm font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 tracking-wide">
-              Save Artwork ♡
-            </button>
+            {painting.isSold ? (
+              <div className="flex flex-col gap-4">
+                <button 
+                  disabled 
+                  className="w-full bg-zinc-100 text-zinc-400 border border-zinc-200 rounded-full py-4 text-sm font-medium cursor-not-allowed tracking-widest uppercase"
+                >
+                  Artwork Sold
+                </button>
+                <div className="text-center mt-2">
+                  <Link 
+                    href="/commissions" 
+                    className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors border-b border-transparent hover:border-zinc-900 pb-0.5"
+                  >
+                    Interested in a similar piece? Commission an artwork.
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <a 
+                href={`mailto:info@sree.art?subject=${emailSubject}&body=${emailBody}`}
+                className="block w-full text-center bg-zinc-900 text-white border border-zinc-900 rounded-full py-4 text-sm font-medium hover:bg-zinc-800 transition-all duration-200 tracking-wide"
+              >
+                Inquire to Purchase
+              </a>
+            )}
           </div>
 
         </div>
