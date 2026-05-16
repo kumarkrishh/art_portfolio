@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { TrackedCommissionLink } from "@/components/analytics/tracked-commission-link";
 import { artworks } from "@/lib/data";
 
 export default async function ArtworkDetailsPage({ params }: { params: { slug: string } }) {
@@ -99,13 +100,15 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
                   Artwork Sold
                 </button>
                 <div className="text-center mt-2">
-                  <Link 
+                  <TrackedCommissionLink
                     href="/commissions" 
-                    // Changed border-transparent to border-zinc-400 so the underline is always visible
                     className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors border-b border-zinc-400 hover:border-zinc-900 pb-0.5"
+                    source="artwork_detail_sold"
+                    artworkId={painting.id}
+                    artworkTitle={painting.title}
                   >
                     Interested in a similar piece? Commission an artwork.
-                  </Link>
+                  </TrackedCommissionLink>
                 </div>
               </div>
             ) : (

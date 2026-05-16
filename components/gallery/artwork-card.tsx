@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { track } from "@vercel/analytics";
 
 export type Painting = {
   id: string;
@@ -35,7 +38,18 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
   const imagePaddingClass = getDynamicPadding(painting.dimensions);
 
   return (
-    <Link href={`/gallery/${painting.slug}`} className="group flex flex-col gap-2">
+    <Link
+      href={`/gallery/${painting.slug}`}
+      className="group flex flex-col gap-2"
+      onClick={() =>
+        track("artwork_card_clicked", {
+          artworkId: painting.id,
+          artworkSlug: painting.slug,
+          artworkTitle: painting.title,
+          collection: painting.collection,
+        })
+      }
+    >
       <div className="relative aspect-[4/5] w-full bg-[#F9F8F6] rounded-sm overflow-hidden transition-all duration-500 ease-out group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] group-hover:-translate-y-1">
         
         {/* Top-left badge removed to prevent double "Sold" text */}

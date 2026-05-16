@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import { track } from "@vercel/analytics";
 import { AlertCircle, CheckCircle2, LoaderCircle, MailCheck } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
@@ -71,11 +72,22 @@ export function ContactForm() {
     initialContactFormState,
   );
   const formRef = useRef<HTMLFormElement>(null);
+  const previousStatusRef = useRef<ContactFormState["status"]>("idle");
 
   useEffect(() => {
     if (state.status === "success") {
       formRef.current?.reset();
     }
+  }, [state.status]);
+
+  useEffect(() => {
+    if (state.status === "success" && previousStatusRef.current !== "success") {
+      track("contact_form_submitted", {
+        form: "contact",
+      });
+    }
+
+    previousStatusRef.current = state.status;
   }, [state.status]);
 
   return (
