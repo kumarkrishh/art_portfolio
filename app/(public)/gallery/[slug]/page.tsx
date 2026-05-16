@@ -101,7 +101,8 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
                 <div className="text-center mt-2">
                   <Link 
                     href="/commissions" 
-                    className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors border-b border-transparent hover:border-zinc-900 pb-0.5"
+                    // Changed border-transparent to border-zinc-400 so the underline is always visible
+                    className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors border-b border-zinc-400 hover:border-zinc-900 pb-0.5"
                   >
                     Interested in a similar piece? Commission an artwork.
                   </Link>

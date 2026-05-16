@@ -213,5 +213,35 @@ export const artworks = [
     dimensions: '12 x 9 in', // Portrait (12h x 9w)
     description: "A vivid sunset scene where fiery orange and pale pink clouds meet a calming teal ocean. The sun’s reflection shimmers across gently breaking waves rolling onto a dark shore.", //
     image_url: '/artworks/vibrant-horizon.jpeg',
+  },
+  {
+    id: 'shoreline-under-summer-clouds',
+    title: 'Shoreline Under Summer Clouds',
+    price: 185,
+    collection: 'Studio Collection',
+    medium: 'Acrylic on Canvas',
+    dimensions: '9 x 12 in', // Landscape (9h x 12w)
+    description: "A bright coastal landscape with a quiet sandy shore, vivid blue water, and towering white clouds drifting above. Wind-shaped trees and dark volcanic rocks anchor the composition with a distinctly tropical feel.", //
+    image_url: '/artworks/shoreline-under-summer-clouds.jpeg',
+  },
+  {
+    id: 'sunbreak-over-the-sea',
+    title: 'Sunbreak over the Sea',
+    price: 195,
+    collection: 'Studio Collection',
+    medium: 'Acrylic on Canvas',
+    dimensions: '12 x 12 in', // Square
+    description: "A luminous seascape centered on sunlight breaking through layered clouds. Radiating beams and shimmering reflections stretch across the water, giving the scene a dramatic sense of openness and calm.", //
+    image_url: '/artworks/sunbreak-over-the-sea.jpeg',
+  },
+  {
+    id: 'pines-by-the-pacific',
+    title: 'Pines by the Pacific',
+    price: 165,
+    collection: 'Studio Collection',
+    medium: 'Acrylic on Canvas',
+    dimensions: '9 x 12 in', // Landscape (9h x 12w)
+    description: "A peaceful coastal view framed by tall pines and a warm sandy shore. The broad blue sky and gentle surf create an airy, relaxed scene with a strong sense of stillness.", //
+    image_url: '/artworks/pines-by-the-pacific.jpeg',
   }
 ];
