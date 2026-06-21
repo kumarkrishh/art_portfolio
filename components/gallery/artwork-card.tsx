@@ -58,7 +58,7 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
           <img
             src={painting.imageUrl}
             alt={painting.title}
-            className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm ${imagePaddingClass} ${painting.isSold ? 'opacity-85' : ''}`}
+            className={`absolute inset-0 w-full h-full object-contain drop-shadow-sm ${imagePaddingClass} ${painting.isSold ? 'opacity-85' : ''}`}
           />
         </div>
       </div>

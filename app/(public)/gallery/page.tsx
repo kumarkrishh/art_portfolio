@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ArtworkCard, Painting } from "@/components/gallery/artwork-card";
+import { getArtworkPreviewUrl } from "@/lib/artwork-images";
 import { artworks } from "@/lib/data";
 
 const SORT_OPTIONS = [
@@ -80,7 +81,7 @@ export default function GalleryPage() {
     collection: art.collection,
     medium: art.medium,
     price: art.price,
-    imageUrl: art.image_url, 
+    imageUrl: getArtworkPreviewUrl(art.image_url), 
     dimensions: art.dimensions, 
     isSold: art.isSold,
   }));

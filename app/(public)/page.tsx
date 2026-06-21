@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { artworks } from "@/lib/data";
+import { getArtworkPreviewUrl } from "@/lib/artwork-images";
 import { ArtworkCard, Painting } from "@/components/gallery/artwork-card";
 
 export default function HomePage() {
   // Define the exact IDs of the paintings you want to feature
   const featuredIds = [
     'sunbreak-over-the-sea', // Sunbreak over the Sea
-    'bamboo-study-i',         // Bamboo Study I
+    'silent-grove',          // Silent Grove
     'canopy-study',          // The Giant Reaches Up
-    'piece-1925',            // Turquoise Tides in Motion
+    'turquoise-tides-in-motion', // Turquoise Tides in Motion
     'azure-descent',         // Hawaii Glow by Water
   ];
 
@@ -23,7 +24,7 @@ export default function HomePage() {
       collection: art.collection,
       medium: art.medium,
       price: art.price,
-      imageUrl: art.image_url, 
+      imageUrl: getArtworkPreviewUrl(art.image_url), 
       dimensions: art.dimensions, 
       isSold: art.isSold,
     }));

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TrackedCommissionLink } from "@/components/analytics/tracked-commission-link";
+import { getArtworkPreviewUrl } from "@/lib/artwork-images";
 import { artworks } from "@/lib/data";
 
 export default async function ArtworkDetailsPage({ params }: { params: { slug: string } }) {
@@ -36,9 +37,9 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
           <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible pb-2 md:pb-0 hide-scrollbar">
             <button className="flex-shrink-0 w-20 h-28 relative bg-[#F9F8F6] rounded-sm overflow-hidden border transition-all border-zinc-900">
               <img 
-                src={painting.image_url} 
+                src={getArtworkPreviewUrl(painting.image_url)} 
                 alt={`${painting.title} thumbnail`} 
-                className={`absolute inset-0 w-full h-full object-cover p-1.5 mix-blend-multiply ${painting.isSold ? 'opacity-85' : ''}`}
+                className={`absolute inset-0 w-full h-full object-cover p-1.5 ${painting.isSold ? 'opacity-85' : ''}`}
               />
             </button>
           </div>
@@ -50,7 +51,7 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
                 <img
                   src={painting.image_url}
                   alt={painting.title}
-                  className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply drop-shadow-sm ${painting.isSold ? 'opacity-85' : ''}`}
+                  className={`absolute inset-0 w-full h-full object-contain drop-shadow-sm ${painting.isSold ? 'opacity-85' : ''}`}
                 />
               </div>
             </div>
