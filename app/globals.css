@@ -30,3 +30,9 @@
     color: hsl(var(--foreground));
   }
 }
+
+.protected-artwork-image {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}

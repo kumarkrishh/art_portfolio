@@ -27,6 +27,7 @@ export default function HomePage() {
       imageUrl: getArtworkPreviewUrl(art.image_url), 
       dimensions: art.dimensions, 
       isSold: art.isSold,
+      notForSale: art.notForSale,
     }));
 
   return (

@@ -54,9 +54,11 @@ export default function GalleryPage() {
 
   // Updated Sorting Logic: Pushes Sold Items to Bottom
   const sortedArtworks = [...filteredArtworks].sort((a, b) => {
-    // 1. Sort by Availability (Available first, Sold last)
-    if (a.isSold && !b.isSold) return 1;
-    if (!a.isSold && b.isSold) return -1;
+    // 1. Sort by Availability (Available first, unavailable last)
+    const aUnavailable = a.isSold || a.notForSale;
+    const bUnavailable = b.isSold || b.notForSale;
+    if (aUnavailable && !bUnavailable) return 1;
+    if (!aUnavailable && bUnavailable) return -1;
 
     // 2. Then apply the selected sorting method
     if (sortBy === "title-asc") {
@@ -84,6 +86,7 @@ export default function GalleryPage() {
     imageUrl: getArtworkPreviewUrl(art.image_url), 
     dimensions: art.dimensions, 
     isSold: art.isSold,
+    notForSale: art.notForSale,
   }));
 
   const activeSortLabel = SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label;

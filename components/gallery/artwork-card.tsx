@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { track } from "@vercel/analytics";
+import { ProtectedArtworkImage } from "@/components/gallery/protected-artwork-image";
 
 export type Painting = {
   id: string;
@@ -13,6 +14,7 @@ export type Painting = {
   imageUrl: string;
   dimensions?: string; 
   isSold?: boolean; 
+  notForSale?: boolean;
 };
 
 function getDynamicPadding(dimensions?: string) {
@@ -36,6 +38,8 @@ function getDynamicPadding(dimensions?: string) {
 
 export function ArtworkCard({ painting }: { painting: Painting }) {
   const imagePaddingClass = getDynamicPadding(painting.dimensions);
+  const isUnavailable = painting.isSold || painting.notForSale;
+  const availabilityLabel = painting.notForSale ? "Not for Sale" : painting.isSold ? "Sold" : null;
 
   return (
     <Link
@@ -55,10 +59,10 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
         {/* Top-left badge removed to prevent double "Sold" text */}
 
         <div className="relative w-full h-full flex items-center justify-center">
-          <img
+          <ProtectedArtworkImage
             src={painting.imageUrl}
             alt={painting.title}
-            className={`absolute inset-0 w-full h-full object-contain drop-shadow-sm ${imagePaddingClass} ${painting.isSold ? 'opacity-85' : ''}`}
+            className={`absolute inset-0 w-full h-full object-contain drop-shadow-sm ${imagePaddingClass} ${isUnavailable ? 'opacity-85' : ''}`}
           />
         </div>
       </div>
@@ -74,8 +78,8 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
         
         {/* Keeping the elegant price replacement */}
         <p className="text-sm font-semibold text-zinc-900">
-          {painting.isSold ? (
-            <span className="text-zinc-400 font-normal italic">Sold</span>
+          {availabilityLabel ? (
+            <span className="text-zinc-400 font-normal italic">{availabilityLabel}</span>
           ) : (
             `$${painting.price}`
           )}
