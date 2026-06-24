@@ -15,6 +15,22 @@ const SORT_OPTIONS = [
 
 type SortValue = typeof SORT_OPTIONS[number]["value"];
 
+function parseDimensions(dimensions: string) {
+  const matches = dimensions.match(/\d+(\.\d+)?/g);
+  if (!matches || matches.length < 2) {
+    return null;
+  }
+
+  const width = parseFloat(matches[0]);
+  const height = parseFloat(matches[1]);
+
+  return {
+    width,
+    height,
+    area: width * height,
+  };
+}
+
 export default function GalleryPage() {
   const visibleArtworks = artworks.filter((art) => !art.notForSale);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -37,7 +53,22 @@ export default function GalleryPage() {
 
   const availableSizes = Array.from(
     new Set(visibleArtworks.map((art) => art.dimensions).filter(Boolean))
-  ) as string[];
+  )
+    .sort((a, b) => {
+      const parsedA = parseDimensions(a);
+      const parsedB = parseDimensions(b);
+
+      if (!parsedA || !parsedB) {
+        return a.localeCompare(b);
+      }
+      if (parsedA.area !== parsedB.area) {
+        return parsedA.area - parsedB.area;
+      }
+      if (parsedA.width !== parsedB.width) {
+        return parsedA.width - parsedB.width;
+      }
+      return parsedA.height - parsedB.height;
+    }) as string[];
 
   const availableMediums = Array.from(
     new Set(visibleArtworks.map((art) => art.medium).filter(Boolean))
