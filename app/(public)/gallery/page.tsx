@@ -16,6 +16,7 @@ const SORT_OPTIONS = [
 type SortValue = typeof SORT_OPTIONS[number]["value"];
 
 export default function GalleryPage() {
+  const visibleArtworks = artworks.filter((art) => !art.notForSale);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedMediums, setSelectedMediums] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<SortValue>("price-asc");
@@ -35,14 +36,14 @@ export default function GalleryPage() {
   }, []);
 
   const availableSizes = Array.from(
-    new Set(artworks.map((art) => art.dimensions).filter(Boolean))
+    new Set(visibleArtworks.map((art) => art.dimensions).filter(Boolean))
   ) as string[];
 
   const availableMediums = Array.from(
-    new Set(artworks.map((art) => art.medium).filter(Boolean))
+    new Set(visibleArtworks.map((art) => art.medium).filter(Boolean))
   ) as string[];
 
-  const filteredArtworks = artworks.filter((art) => {
+  const filteredArtworks = visibleArtworks.filter((art) => {
     if (selectedSize && art.dimensions !== selectedSize) {
       return false; 
     }

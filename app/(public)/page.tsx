@@ -4,6 +4,8 @@ import { getArtworkPreviewUrl } from "@/lib/artwork-images";
 import { ArtworkCard, Painting } from "@/components/gallery/artwork-card";
 
 export default function HomePage() {
+  const visibleArtworks = artworks.filter((art) => !art.notForSale);
+
   // Define the exact IDs of the paintings you want to feature
   const featuredIds = [
     'sunbreak-over-the-sea', // Sunbreak over the Sea
@@ -15,7 +17,7 @@ export default function HomePage() {
 
   // Map the IDs to the actual artwork data and format it for the card component
   const featuredArtworks: Painting[] = featuredIds
-    .map(id => artworks.find(art => art.id === id))
+    .map(id => visibleArtworks.find((art) => art.id === id))
     .filter((art): art is NonNullable<typeof art> => art !== undefined) // safety check
     .map((art) => ({
       id: art.id,

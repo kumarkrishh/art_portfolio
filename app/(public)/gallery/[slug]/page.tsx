@@ -10,7 +10,7 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
   
   const painting = artworks.find(art => art.id === resolvedParams.slug);
 
-  if (!painting) {
+  if (!painting || painting.notForSale) {
     notFound();
   }
 
