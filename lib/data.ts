@@ -55,7 +55,7 @@ export const artworks = [
   {
     id: 'saffron-current',
     title: 'Saffron Current',
-    price: 475,
+    price: 80,
     collection: 'Studio Collection',
     medium: 'Oil on Canvas',
     dimensions: '12 x 9 in',

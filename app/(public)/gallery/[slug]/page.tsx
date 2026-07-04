@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TrackedCommissionLink } from "@/components/analytics/tracked-commission-link";
-import { ProtectedArtworkImage } from "@/components/gallery/protected-artwork-image";
-import { getArtworkPreviewUrl } from "@/lib/artwork-images";
+import { ArtworkImageGallery } from "@/components/gallery/artwork-image-gallery";
+import { getArtworkDetailImages } from "@/lib/artwork-images";
 import { artworks } from "@/lib/data";
 
 export default async function ArtworkDetailsPage({ params }: { params: { slug: string } }) {
@@ -20,6 +20,7 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
   const isUnavailable = painting.isSold || painting.notForSale;
   const availabilityLabel = painting.notForSale ? "Not for Sale" : "Sold";
   const availabilityButtonLabel = painting.notForSale ? "Not for Sale" : "Artwork Sold";
+  const detailImages = getArtworkDetailImages(painting);
 
   return (
     <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-12 py-6 lg:py-8">
@@ -35,32 +36,11 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
         
         {/* Left Side: Images */}
-        <div className="flex-1 min-w-0 flex flex-col-reverse md:flex-row gap-6 lg:gap-10 w-full justify-center">
-          
-          {/* Vertical Thumbnails */}
-          <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible pb-2 md:pb-0 hide-scrollbar">
-            <button className="flex-shrink-0 w-20 h-28 relative bg-[#F9F8F6] rounded-sm overflow-hidden border transition-all border-zinc-900">
-              <ProtectedArtworkImage
-                src={getArtworkPreviewUrl(painting.image_url)} 
-                alt={`${painting.title} thumbnail`} 
-                className={`absolute inset-0 w-full h-full object-cover p-1.5 ${isUnavailable ? 'opacity-85' : ''}`}
-              />
-            </button>
-          </div>
-
-          {/* Main Large Image */}
-          <div className="flex-1 flex justify-center lg:justify-start">
-            <div className="relative h-[60vh] lg:h-[75vh] max-h-[800px] w-full bg-[#F9F8F6] rounded-sm overflow-hidden p-6 lg:p-12">
-              <div className="relative w-full h-full">
-                <ProtectedArtworkImage
-                  src={painting.image_url}
-                  alt={painting.title}
-                  className={`absolute inset-0 w-full h-full object-contain drop-shadow-sm ${isUnavailable ? 'opacity-85' : ''}`}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <ArtworkImageGallery
+          images={detailImages}
+          title={painting.title}
+          isUnavailable={Boolean(isUnavailable)}
+        />
 
         {/* Right Side: Artwork Details */}
         <div className="w-full lg:w-[480px] flex-shrink-0 flex flex-col py-4">
