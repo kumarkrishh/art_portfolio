@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TrackedCommissionLink } from "@/components/analytics/tracked-commission-link";
 import { ArtworkImageGallery } from "@/components/gallery/artwork-image-gallery";
+import { ArtworkPrice } from "@/components/gallery/artwork-price";
+import { ArtworkSelectionProvider } from "@/components/gallery/artwork-selection-context";
 import { getArtworkDetailImages } from "@/lib/artwork-images";
 import { artworks } from "@/lib/data";
 
@@ -21,6 +23,12 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
   const availabilityLabel = painting.notForSale ? "Not for Sale" : "Sold";
   const availabilityButtonLabel = painting.notForSale ? "Not for Sale" : "Artwork Sold";
   const detailImages = getArtworkDetailImages(painting);
+  const dimensionValues = painting.dimensions.match(/\d+(?:\.\d+)?/g)?.map(Number);
+  const orientation = !dimensionValues || dimensionValues[0] === dimensionValues[1]
+    ? "square"
+    : dimensionValues[0] > dimensionValues[1]
+      ? "landscape"
+      : "portrait";
 
   return (
     <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-12 py-6 lg:py-8">
@@ -33,6 +41,7 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
         ← Back to Artwork
       </Link>
 
+      <ArtworkSelectionProvider>
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
         
         {/* Left Side: Images */}
@@ -40,6 +49,7 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
           images={detailImages}
           title={painting.title}
           isUnavailable={Boolean(isUnavailable)}
+          orientation={orientation}
         />
 
         {/* Right Side: Artwork Details */}
@@ -50,7 +60,11 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
           
           {/* Updated Price to reflect "Sold" status */}
           <p className="text-2xl font-semibold text-zinc-900 mb-8">
-            {isUnavailable ? <span className="italic text-zinc-500 font-normal">{availabilityLabel}</span> : `$${painting.price}`}
+            <ArtworkPrice
+              basePrice={painting.price}
+              isUnavailable={Boolean(isUnavailable)}
+              unavailableLabel={availabilityLabel}
+            />
           </p>
           
           <div className="w-12 h-[1px] bg-zinc-200 mb-8"></div>
@@ -108,6 +122,7 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
 
         </div>
       </div>
+      </ArtworkSelectionProvider>
     </div>
   );
 }

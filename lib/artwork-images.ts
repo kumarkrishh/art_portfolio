@@ -57,6 +57,26 @@ const framedArtworkImages: Record<string, ArtworkDetailImage[]> = {
     { src: "/wheregentlewavesreturn/1.png", thumbnailSrc: "/wheregentlewavesreturn/1.png", label: "Brown frame" },
     { src: "/wheregentlewavesreturn/2.png", thumbnailSrc: "/wheregentlewavesreturn/2.png", label: "White frame" },
   ],
+  "saffron-current": [
+    { src: "/saffroncurrent/1.png", thumbnailSrc: "/saffroncurrent/1.png", label: "Brown frame" },
+    { src: "/saffroncurrent/2.png", thumbnailSrc: "/saffroncurrent/2.png", label: "White frame" },
+  ],
+  "vibrant-horizon": [
+    { src: "/vibranthorizon/1.png", thumbnailSrc: "/vibranthorizon/1.png", label: "Brown frame" },
+    { src: "/vibranthorizon/2.png", thumbnailSrc: "/vibranthorizon/2.png", label: "White frame" },
+  ],
+  "azure-descent": [
+    { src: "/hawaiiglowbywater/1.png", thumbnailSrc: "/hawaiiglowbywater/1.png", label: "Brown frame" },
+    { src: "/hawaiiglowbywater/2.png", thumbnailSrc: "/hawaiiglowbywater/2.png", label: "White frame" },
+  ],
+  "evening-across-the-bay": [
+    { src: "/whispersatdusk/1.png", thumbnailSrc: "/whispersatdusk/1.png", label: "Brown frame" },
+    { src: "/whispersatdusk/2.png", thumbnailSrc: "/whispersatdusk/2.png", label: "White frame" },
+  ],
+  "cranes-in-tandem": [
+    { src: "/togetherinflight/1.png", thumbnailSrc: "/togetherinflight/1.png", label: "Brown frame" },
+    { src: "/togetherinflight/2.png", thumbnailSrc: "/togetherinflight/2.png", label: "White frame" },
+  ],
 };
 
 export function getArtworkDetailImages(artwork: {
