@@ -6,7 +6,7 @@ import {
   getConfiguredSiteOrigin,
   getPaymentReadiness,
   getProductImageOrigin,
-  getShippingAmountCents,
+  getShippingTier,
   isAutomaticTaxEnabled,
 } from "@/lib/payment-config";
 import { getStripe } from "@/lib/stripe";
@@ -101,7 +101,7 @@ export async function POST(request: Request) {
       selectedOption.thumbnailSrc,
       `${productImageOrigin.replace(/\/$/, "")}/`,
     ).toString();
-    const shippingAmountCents = getShippingAmountCents();
+    const shippingTier = getShippingTier(artwork.dimensions);
     const stripe = getStripe();
 
     const session = await stripe.checkout.sessions.create({
@@ -136,6 +136,8 @@ export async function POST(request: Request) {
         artwork_title: artwork.title,
         option: parsed.data.selectedLabel,
         base_price_dollars: String(artwork.price),
+        shipping_tier: shippingTier.name,
+        shipping_amount_cents: String(shippingTier.amountCents),
       },
       payment_intent_data: {
         description: `${artwork.title} — ${parsed.data.selectedLabel}`,
@@ -148,22 +150,18 @@ export async function POST(request: Request) {
       automatic_tax: {
         enabled: isAutomaticTaxEnabled(),
       },
-      ...(shippingAmountCents > 0
-        ? {
-            shipping_options: [
-              {
-                shipping_rate_data: {
-                  type: "fixed_amount" as const,
-                  display_name: "Standard shipping",
-                  fixed_amount: {
-                    amount: shippingAmountCents,
-                    currency: "usd",
-                  },
-                },
-              },
-            ],
-          }
-        : {}),
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount" as const,
+            display_name: `Standard shipping — ${shippingTier.name}`,
+            fixed_amount: {
+              amount: shippingTier.amountCents,
+              currency: "usd",
+            },
+          },
+        },
+      ],
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/gallery/${encodeURIComponent(artwork.id)}`,
     });

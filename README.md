@@ -45,6 +45,10 @@ The browser sends an artwork ID and selected frame option. The server validates
 availability and calculates the authoritative price before creating a hosted
 Stripe Checkout Session. Never commit or expose the secret values.
 
+Shipping is calculated server-side from the artwork dimensions: $25 up to 12
+inches, $35 up to 16 inches, $45 up to 18 inches, $65 up to 24 inches, and $95
+for larger pieces. Checkout accepts United States shipping addresses only.
+
 Production checkout is fail-closed. It only appears when `PAYMENTS_ENABLED=true`,
 `STRIPE_SECRET_KEY` is a live key, `STRIPE_WEBHOOK_SECRET` is configured, and
 `SITE_URL` is HTTPS. See [the Stripe go-live guide](docs/STRIPE-GO-LIVE.md) for

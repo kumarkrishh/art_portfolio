@@ -74,12 +74,38 @@ export function getPaymentReadiness(): PaymentReadiness {
   return { ready: true };
 }
 
-export function getShippingAmountCents() {
-  const configuredAmount = process.env.STRIPE_SHIPPING_AMOUNT_CENTS;
-  if (!configuredAmount) return 0;
+type ShippingTier = {
+  name: string;
+  amountCents: number;
+};
 
-  const amount = Number(configuredAmount);
-  return Number.isSafeInteger(amount) && amount >= 0 ? amount : 0;
+const SHIPPING_TIERS = {
+  small: { name: "Small artwork", amountCents: 2_500 },
+  medium: { name: "Medium artwork", amountCents: 3_500 },
+  large: { name: "Large artwork", amountCents: 4_500 },
+  extraLarge: { name: "Extra-large artwork", amountCents: 6_500 },
+  oversized: { name: "Oversized artwork", amountCents: 9_500 },
+} satisfies Record<string, ShippingTier>;
+
+export function getShippingTier(dimensions: string): ShippingTier {
+  const measurements = dimensions
+    .toLowerCase()
+    .replaceAll("×", "x")
+    .match(/(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)/);
+
+  // Use the safest tier if a future catalog entry has an unexpected format.
+  if (!measurements) return SHIPPING_TIERS.oversized;
+
+  const longestSide = Math.max(
+    Number(measurements[1]),
+    Number(measurements[2]),
+  );
+
+  if (longestSide <= 12) return SHIPPING_TIERS.small;
+  if (longestSide <= 16) return SHIPPING_TIERS.medium;
+  if (longestSide <= 18) return SHIPPING_TIERS.large;
+  if (longestSide <= 24) return SHIPPING_TIERS.extraLarge;
+  return SHIPPING_TIERS.oversized;
 }
 
 export function isAutomaticTaxEnabled() {
