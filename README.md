@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sree Art Website
 
-## Getting Started
+This repository contains the Sree Art portfolio and artwork catalog.
 
-First, run the development server:
+## Website owner documentation
+
+For plain-language instructions on updating paintings, prices, availability, images, frame options, homepage content, and publishing changes, read:
+
+**[Website Owner's Guide](docs/WEBSITE-OWNER-GUIDE.md)**
+
+## Quick start for developers
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Useful commands:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run check
+npm run generate:previews
+npm run build
+```
 
-## Learn More
+The site is built with Next.js, React, TypeScript, and Tailwind CSS.
 
-To learn more about Next.js, take a look at the following resources:
+## Stripe Checkout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Artwork checkout is created server-side from `lib/data.ts`; products do not need
+to be entered manually in Stripe. Local development requires these values in
+`.env.local`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+SITE_URL=http://localhost:3000
+# Optional; defaults to https://www.sree.art
+STRIPE_PRODUCT_IMAGE_ORIGIN=https://www.sree.art
+```
 
-## Deploy on Vercel
+The browser sends an artwork ID and selected frame option. The server validates
+availability and calculates the authoritative price before creating a hosted
+Stripe Checkout Session. Never commit or expose the secret values.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Production checkout is fail-closed. It only appears when `PAYMENTS_ENABLED=true`,
+`STRIPE_SECRET_KEY` is a live key, `STRIPE_WEBHOOK_SECRET` is configured, and
+`SITE_URL` is HTTPS. See [the Stripe go-live guide](docs/STRIPE-GO-LIVE.md) for
+the deployment order, complete environment-variable list, webhook events, and
+post-launch workflow.

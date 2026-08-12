@@ -75,12 +75,12 @@ export default function HomePage() {
               Discover her latest Spring collection, currently in progress.
             </p>
 
-            <a 
+            <Link
               href="/gallery" 
               className="inline-block px-10 py-4 bg-zinc-900 border border-zinc-900 text-white text-[11px] tracking-[0.2em] font-medium hover:bg-transparent hover:text-zinc-900 transition-all duration-500 ease-out uppercase"
             >
               Explore Gallery
-            </a>
+            </Link>
           </div>
 
         </div>

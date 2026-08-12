@@ -4,10 +4,12 @@ import { TrackedCommissionLink } from "@/components/analytics/tracked-commission
 import { ArtworkImageGallery } from "@/components/gallery/artwork-image-gallery";
 import { ArtworkPrice } from "@/components/gallery/artwork-price";
 import { ArtworkSelectionProvider } from "@/components/gallery/artwork-selection-context";
+import { BuyArtworkButton } from "@/components/gallery/buy-artwork-button";
 import { getArtworkDetailImages } from "@/lib/artwork-images";
 import { artworks } from "@/lib/data";
+import { getPaymentReadiness } from "@/lib/payment-config";
 
-export default async function ArtworkDetailsPage({ params }: { params: { slug: string } }) {
+export default async function ArtworkDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   
   const painting = artworks.find(art => art.id === resolvedParams.slug);
@@ -23,6 +25,7 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
   const availabilityLabel = painting.notForSale ? "Not for Sale" : "Sold";
   const availabilityButtonLabel = painting.notForSale ? "Not for Sale" : "Artwork Sold";
   const detailImages = getArtworkDetailImages(painting);
+  const paymentsReady = getPaymentReadiness().ready;
   const dimensionValues = painting.dimensions.match(/\d+(?:\.\d+)?/g)?.map(Number);
   const orientation = !dimensionValues || dimensionValues[0] === dimensionValues[1]
     ? "square"
@@ -110,10 +113,23 @@ export default async function ArtworkDetailsPage({ params }: { params: { slug: s
                   </TrackedCommissionLink>
                 </div>
               </div>
+            ) : paymentsReady ? (
+              <div className="space-y-3">
+                <BuyArtworkButton
+                  artworkId={painting.id}
+                  artworkTitle={painting.title}
+                />
+                <a
+                  href={`mailto:info@sree.art?subject=${emailSubject}&body=${emailBody}`}
+                  className="block text-center text-xs text-zinc-500 transition-colors hover:text-zinc-900"
+                >
+                  Questions about shipping or the artwork? Contact Sree
+                </a>
+              </div>
             ) : (
-              <a 
+              <a
                 href={`mailto:info@sree.art?subject=${emailSubject}&body=${emailBody}`}
-                className="block w-full text-center bg-zinc-900 text-white border border-zinc-900 rounded-full py-4 text-sm font-medium hover:bg-zinc-800 transition-all duration-200 tracking-wide"
+                className="block w-full rounded-full border border-zinc-900 bg-zinc-900 py-4 text-center text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-zinc-800"
               >
                 Inquire to Purchase
               </a>

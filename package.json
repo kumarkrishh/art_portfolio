@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "check": "npm run lint && tsc --noEmit",
+    "generate:previews": "python3 scripts/watermark_artworks.py --source-dir public/artworks --output-dir public/artworks-preview --max-edge 750",
     "watermark:artworks": "python3 scripts/watermark_artworks.py"
   },
   "dependencies": {

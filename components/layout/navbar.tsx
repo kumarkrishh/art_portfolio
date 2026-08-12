@@ -17,7 +17,7 @@ export function Navbar() {
           className="text-2xl md:text-3xl text-zinc-900 tracking-wide hover:opacity-70 transition-opacity"
           style={{ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' }}
         >
-          Sree's Art
+          Sree&apos;s Art
         </Link>
 
         {/* Middle: Real Navigation Links (Desktop) */}
