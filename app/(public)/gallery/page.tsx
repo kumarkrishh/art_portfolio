@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ArtworkCard, Painting } from "@/components/gallery/artwork-card";
 import { getArtworkPreviewUrl } from "@/lib/artwork-images";
-import { artworks } from "@/lib/data";
+import { artworks, CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
 
 const SORT_OPTIONS = [
   { value: "featured", label: "Featured" },
@@ -32,7 +32,9 @@ function parseDimensions(dimensions: string) {
 }
 
 export default function GalleryPage() {
-  const visibleArtworks = artworks.filter((art) => !art.notForSale);
+  const visibleArtworks = artworks.filter(
+    (art) => !art.notForSale && art.id !== CHECKOUT_TEST_ARTWORK_ID,
+  );
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedMediums, setSelectedMediums] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<SortValue>("price-asc");

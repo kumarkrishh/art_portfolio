@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
 import { getStripe } from "@/lib/stripe";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +24,8 @@ export default async function CheckoutSuccessPage({
     const paid = session.payment_status === "paid";
     const item = session.line_items?.data[0];
     const artworkTitle = item?.description ?? session.metadata?.artwork_title;
+    const isCheckoutTest =
+      session.metadata?.artwork_id === CHECKOUT_TEST_ARTWORK_ID;
 
     return (
       <section className="mx-auto flex w-full max-w-2xl flex-1 items-center px-6 py-20">
@@ -35,14 +38,18 @@ export default async function CheckoutSuccessPage({
           </h1>
           <p className="mx-auto mt-5 max-w-lg leading-relaxed text-zinc-600">
             {paid
-              ? session.livemode
+              ? isCheckoutTest
+                ? `The $1 live checkout test completed successfully. Order details will be sent to ${session.customer_details?.email ?? "your email address"}. No artwork will be shipped.`
+                : session.livemode
                 ? `${artworkTitle ?? "Your artwork"} is now reserved for you. Order details will be sent to ${session.customer_details?.email ?? "your email address"}.`
                 : `${artworkTitle ?? "Your artwork"} completed successfully as a sandbox test. No real payment was made and automatic receipt email delivery may be suppressed.`
               : "We’ll confirm your order as soon as Stripe finishes processing the payment."}
           </p>
-          <p className="mt-4 text-sm text-zinc-500">
-            Sree will contact you with shipping details.
-          </p>
+          {!isCheckoutTest ? (
+            <p className="mt-4 text-sm text-zinc-500">
+              Sree will contact you with shipping details.
+            </p>
+          ) : null}
           <Link
             href="/gallery"
             className="mt-8 inline-flex rounded-full bg-zinc-900 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-zinc-800"

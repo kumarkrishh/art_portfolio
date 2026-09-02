@@ -3,7 +3,7 @@ import "server-only";
 import { Resend } from "resend";
 import type Stripe from "stripe";
 import { getArtworkDetailImages } from "@/lib/artwork-images";
-import { artworks } from "@/lib/data";
+import { artworks, CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
 import { getProductImageOrigin } from "@/lib/payment-config";
 
 function escapeHtml(value: string) {
@@ -70,6 +70,7 @@ export async function sendPaidOrderNotifications(
 
   const customerEmail = session.customer_details?.email;
   const artworkId = session.metadata?.artwork_id ?? "unknown-artwork";
+  const isCheckoutTest = artworkId === CHECKOUT_TEST_ARTWORK_ID;
   const artworkTitle = session.metadata?.artwork_title ?? "Artwork purchase";
   const option = session.metadata?.option ?? "Canvas only";
   const amount = formatAmount(session.amount_total, session.currency);
@@ -109,7 +110,7 @@ export async function sendPaidOrderNotifications(
                 <h2 style="margin:0 0 8px;font-family:Georgia,serif;font-size:24px;font-weight:500;">${safeTitle}</h2>
                 <p style="margin:0 0 6px;color:#57534e;">${safeOption}</p>
                 <p style="margin:0 0 24px;font-size:20px;font-weight:600;">${safeAmount}</p>
-                <p style="margin:0;line-height:1.7;color:#57534e;">Your payment is confirmed. Sree will contact you with shipping details. Stripe's receipt is your payment record.</p>
+                <p style="margin:0;line-height:1.7;color:#57534e;">${isCheckoutTest ? "The live payment flow completed successfully. This test does not include artwork or shipping." : "Your payment is confirmed. Sree will contact you with shipping details. Stripe's receipt is your payment record."}</p>
               </div>
             </div>
           `,
@@ -120,7 +121,9 @@ export async function sendPaidOrderNotifications(
             option,
             amount,
             "",
-            "Your payment is confirmed. Sree will contact you with shipping details.",
+            isCheckoutTest
+              ? "The live payment flow completed successfully. No artwork will be shipped."
+              : "Your payment is confirmed. Sree will contact you with shipping details.",
           ].join("\n"),
         },
         { idempotencyKey: `stripe-${eventId}-customer` },
@@ -146,7 +149,7 @@ export async function sendPaidOrderNotifications(
               <p><strong>Customer:</strong> ${safeCustomerEmail}</p>
               <p><strong>Shipping address:</strong><br />${safeShippingAddress}</p>
               <p><strong>Stripe Checkout Session:</strong> ${escapeHtml(session.id)}</p>
-              <p style="margin-top:24px;padding:16px;border-radius:12px;background:#fef3c7;color:#78350f;"><strong>Action required:</strong> arrange shipping and mark this artwork sold in <code>lib/data.ts</code>.</p>
+              <p style="margin-top:24px;padding:16px;border-radius:12px;background:#fef3c7;color:#78350f;"><strong>${isCheckoutTest ? "Test completed:" : "Action required:"}</strong> ${isCheckoutTest ? "No artwork should be shipped or marked sold. Refund the $1 payment in Stripe after verification." : "Arrange shipping and mark this artwork sold in <code>lib/data.ts</code>."}</p>
             </div>
           </div>
         `,
@@ -163,7 +166,9 @@ export async function sendPaidOrderNotifications(
           "",
           `Stripe Checkout Session: ${session.id}`,
           "",
-          "Action required: arrange shipping and mark this artwork sold in lib/data.ts.",
+          isCheckoutTest
+            ? "Test completed: do not ship or mark artwork sold. Refund the $1 payment in Stripe after verification."
+            : "Action required: arrange shipping and mark this artwork sold in lib/data.ts.",
         ].join("\n"),
       },
       { idempotencyKey: `stripe-${eventId}-owner` },

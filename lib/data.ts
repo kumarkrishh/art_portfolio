@@ -1,6 +1,18 @@
 // lib/data.ts
 
+export const CHECKOUT_TEST_ARTWORK_ID = 'checkout-test-item';
+
 export const artworks = [
+  {
+    id: CHECKOUT_TEST_ARTWORK_ID,
+    title: 'TEST PURCHASE — No artwork will be shipped',
+    price: 1,
+    collection: 'Checkout Verification',
+    medium: 'Live payment test only',
+    dimensions: '1 x 1 in',
+    description: 'This $1 listing is only for verifying the live checkout, webhook, receipt, and order-email flow. It does not include artwork or any physical product. The payment can be refunded in Stripe after the test.',
+    image_url: '/test-checkout-item.svg',
+  },
   {
     id: 'wild-flowers-by-the-river',
     title: 'Wild Flowers by the river',

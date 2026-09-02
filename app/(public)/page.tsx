@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { artworks } from "@/lib/data";
+import { artworks, CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
 import { getArtworkPreviewUrl } from "@/lib/artwork-images";
 import { ArtworkCard, Painting } from "@/components/gallery/artwork-card";
 
 export default function HomePage() {
-  const visibleArtworks = artworks.filter((art) => !art.notForSale);
+  const visibleArtworks = artworks.filter(
+    (art) => !art.notForSale && art.id !== CHECKOUT_TEST_ARTWORK_ID,
+  );
 
   // Define the exact IDs of the paintings you want to feature
   const featuredIds = [

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getArtworkDetailImages } from "@/lib/artwork-images";
-import { artworks } from "@/lib/data";
+import { artworks, CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
 import {
   getConfiguredSiteOrigin,
   getPaymentReadiness,
@@ -93,6 +93,7 @@ export async function POST(request: Request) {
     }
 
     const includesFrame = parsed.data.selectedLabel !== "Canvas only";
+    const isCheckoutTest = artwork.id === CHECKOUT_TEST_ARTWORK_ID;
     const unitAmount = Math.round(
       (artwork.price + (includesFrame ? FRAME_PRICE_DOLLARS : 0)) * 100,
     );
@@ -122,7 +123,7 @@ export async function POST(request: Request) {
             product_data: {
               name: artwork.title,
               description: `${artwork.medium} · ${artwork.dimensions} · ${parsed.data.selectedLabel}`,
-              images: [checkoutImageUrl],
+              ...(isCheckoutTest ? {} : { images: [checkoutImageUrl] }),
               metadata: {
                 artwork_id: artwork.id,
                 option: parsed.data.selectedLabel,
@@ -136,8 +137,12 @@ export async function POST(request: Request) {
         artwork_title: artwork.title,
         option: parsed.data.selectedLabel,
         base_price_dollars: String(artwork.price),
-        shipping_tier: shippingTier.name,
-        shipping_amount_cents: String(shippingTier.amountCents),
+        shipping_tier: isCheckoutTest
+          ? "No shipping — checkout test"
+          : shippingTier.name,
+        shipping_amount_cents: isCheckoutTest
+          ? "0"
+          : String(shippingTier.amountCents),
       },
       payment_intent_data: {
         description: `${artwork.title} — ${parsed.data.selectedLabel}`,
@@ -150,18 +155,22 @@ export async function POST(request: Request) {
       automatic_tax: {
         enabled: isAutomaticTaxEnabled(),
       },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount" as const,
-            display_name: `Standard shipping — ${shippingTier.name}`,
-            fixed_amount: {
-              amount: shippingTier.amountCents,
-              currency: "usd",
-            },
-          },
-        },
-      ],
+      ...(isCheckoutTest
+        ? {}
+        : {
+            shipping_options: [
+              {
+                shipping_rate_data: {
+                  type: "fixed_amount" as const,
+                  display_name: `Standard shipping — ${shippingTier.name}`,
+                  fixed_amount: {
+                    amount: shippingTier.amountCents,
+                    currency: "usd",
+                  },
+                },
+              },
+            ],
+          }),
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/gallery/${encodeURIComponent(artwork.id)}`,
     });
