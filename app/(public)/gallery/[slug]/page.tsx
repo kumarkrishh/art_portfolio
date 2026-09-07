@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TrackedCommissionLink } from "@/components/analytics/tracked-commission-link";
 import { ArtworkImageGallery } from "@/components/gallery/artwork-image-gallery";
+import { ArtworkFrameSelector } from "@/components/gallery/artwork-frame-selector";
 import { ArtworkPrice } from "@/components/gallery/artwork-price";
 import { ArtworkSelectionProvider } from "@/components/gallery/artwork-selection-context";
 import { BuyArtworkButton } from "@/components/gallery/buy-artwork-button";
@@ -89,6 +90,11 @@ export default async function ArtworkDetailsPage({ params }: { params: Promise<{
                 <p className="text-sm text-zinc-600">{painting.dimensions}</p>
               </div>
             )}
+
+            <ArtworkFrameSelector
+              options={detailImages}
+              disabled={Boolean(isUnavailable)}
+            />
           </div>
 
           {/* Call to Action Buttons */}

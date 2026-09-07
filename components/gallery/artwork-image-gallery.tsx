@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ArtworkDetailImage } from "@/lib/artwork-images";
 import { useArtworkSelection } from "./artwork-selection-context";
@@ -19,14 +18,16 @@ export function ArtworkImageGallery({
   isUnavailable,
   orientation,
 }: ArtworkImageGalleryProps) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const { setSelectedLabel } = useArtworkSelection();
+  const { selectedLabel, setSelectedLabel } = useArtworkSelection();
+  const matchingIndex = images.findIndex(
+    (image) => image.label === selectedLabel,
+  );
+  const selectedIndex = matchingIndex >= 0 ? matchingIndex : 0;
   const selectedImage = images[selectedIndex] ?? images[0];
   const isCanvasOnly = selectedImage.label === "Canvas only";
   const hasMultipleImages = images.length > 1;
 
   const selectImage = (index: number) => {
-    setSelectedIndex(index);
     setSelectedLabel(images[index]?.label ?? "Canvas only");
   };
 
