@@ -30,8 +30,8 @@ export function Footer() {
             <div className="flex flex-col gap-5">
               {/* Bumped links to text-xs */}
               <Link href="/gallery" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">All Artwork</Link>
-              <Link href="#" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Commissions</Link>
-              <Link href="#" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">About the Artist</Link>
+              <Link href="/commissions" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Commissions</Link>
+              <Link href="/about" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">About the Artist</Link>
             </div>
           </div>
 
@@ -41,9 +41,7 @@ export function Footer() {
               Connect
             </h4>
             <div className="flex flex-col gap-5">
-              <a href="#" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Instagram</a>
-              <a href="#" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Pinterest</a>
-              <a href="#" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Contact</a>
+              <Link href="/contact" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Contact</Link>
             </div>
           </div>
 
@@ -54,10 +52,6 @@ export function Footer() {
           <p className="text-xs tracking-[0.1em] uppercase text-zinc-400">
             © {new Date().getFullYear()} Sree Art. All rights reserved.
           </p>
-          <div className="flex gap-8 text-xs tracking-[0.1em] uppercase text-zinc-400">
-            <Link href="#" className="hover:text-zinc-900 transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-zinc-900 transition-colors">Terms of Service</Link>
-          </div>
         </div>
       </div>
     </footer>
