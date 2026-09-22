@@ -1,4 +1,4 @@
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- Footer links intentionally use full-page navigation so they remain reliable across deployments. */
 
 export function Footer() {
   return (
@@ -9,13 +9,13 @@ export function Footer() {
           
           {/* Brand Col */}
           <div className="md:col-span-2">
-            <Link 
-              href="/" 
+            <a
+              href="/"
               className="text-3xl text-zinc-900 tracking-wide mb-6 inline-block hover:opacity-70 transition-opacity duration-300"
               style={{ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' }}
             >
               Sree&apos;s Art
-            </Link>
+            </a>
             <p className="text-sm text-zinc-500 leading-relaxed max-w-sm font-light">
               Original paintings and premium fine art prints. Exploring light, texture, and the natural world through deliberate brushwork.
             </p>
@@ -29,9 +29,9 @@ export function Footer() {
             </h4>
             <div className="flex flex-col gap-5">
               {/* Bumped links to text-xs */}
-              <Link href="/gallery" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">All Artwork</Link>
-              <Link href="/commissions" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Commissions</Link>
-              <Link href="/about" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">About the Artist</Link>
+              <a href="/gallery" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">All Artwork</a>
+              <a href="/commissions" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Commissions</a>
+              <a href="/about" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">About the Artist</a>
             </div>
           </div>
 
@@ -41,7 +41,7 @@ export function Footer() {
               Connect
             </h4>
             <div className="flex flex-col gap-5">
-              <Link href="/contact" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Contact</Link>
+              <a href="/contact" className="text-xs tracking-[0.1em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-fit">Contact</a>
             </div>
           </div>
 
