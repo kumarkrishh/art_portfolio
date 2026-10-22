@@ -8,14 +8,12 @@ import { ProtectedArtworkImage } from "./protected-artwork-image";
 type ArtworkImageGalleryProps = {
   images: ArtworkDetailImage[];
   title: string;
-  isUnavailable: boolean;
   orientation: "landscape" | "portrait" | "square";
 };
 
 export function ArtworkImageGallery({
   images,
   title,
-  isUnavailable,
   orientation,
 }: ArtworkImageGalleryProps) {
   const { selectedLabel, setSelectedLabel } = useArtworkSelection();
@@ -86,8 +84,6 @@ export function ArtworkImageGallery({
                 alt=""
                 className={`absolute inset-0 w-full h-full object-contain ${
                   image.label === "Canvas only" ? "p-1.5" : ""
-                } ${
-                  isUnavailable ? "opacity-85" : ""
                 }`}
               />
             </button>
@@ -107,7 +103,7 @@ export function ArtworkImageGallery({
               alt={`${title} in ${selectedImage.label.toLowerCase()}`}
               className={`absolute inset-0 w-full h-full object-contain ${
                 isCanvasOnly ? "drop-shadow-sm" : ""
-              } ${isUnavailable ? "opacity-85" : ""}`}
+              }`}
             />
           </div>
         </div>

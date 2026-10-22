@@ -2,6 +2,16 @@
 
 export const CHECKOUT_TEST_ARTWORK_ID = 'checkout-test-item';
 
+export function getArtworkSlug(title: string) {
+  return title
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export const artworks = [
   {
     id: CHECKOUT_TEST_ARTWORK_ID,
@@ -205,6 +215,8 @@ export const artworks = [
     id: 'minimal-branch-sunset',
     title: 'Peace Beneath Evening Skies',
     price: 115,
+    isSold: true,
+    availableToReorder: true,
     collection: 'Studio Collection',
     medium: 'Acrylic on Canvas',
     dimensions: '9 x 12 in',
@@ -245,6 +257,8 @@ export const artworks = [
     id: 'sunbreak-over-the-sea',
     title: 'Radiant Shower of Light',
     price: 225,
+    isSold: true,
+    availableToReorder: true,
     collection: 'Studio Collection',
     medium: 'Acrylic on Canvas',
     dimensions: '12 x 12 in',
@@ -276,6 +290,8 @@ export const artworks = [
     id: 'quiet-sail',
     title: 'Peaceful Soul Voyage',
     price: 110,
+    isSold: true,
+    availableToReorder: true,
     collection: 'Studio Collection',
     medium: 'Acrylic on Canvas',
     dimensions: '8 x 10 in',

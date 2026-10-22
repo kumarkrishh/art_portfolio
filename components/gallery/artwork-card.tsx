@@ -14,6 +14,7 @@ export type Painting = {
   imageUrl: string;
   dimensions?: string; 
   isSold?: boolean; 
+  availableToReorder?: boolean;
   notForSale?: boolean;
 };
 
@@ -38,8 +39,13 @@ function getDynamicPadding(dimensions?: string) {
 
 export function ArtworkCard({ painting }: { painting: Painting }) {
   const imagePaddingClass = getDynamicPadding(painting.dimensions);
-  const isUnavailable = painting.isSold || painting.notForSale;
-  const availabilityLabel = painting.notForSale ? "Not for Sale" : painting.isSold ? "Sold" : null;
+  const availabilityLabel = painting.notForSale
+    ? "Not for Sale"
+    : painting.availableToReorder
+      ? "Sold · Available to reorder"
+      : painting.isSold
+        ? "Sold"
+        : null;
 
   return (
     <Link
@@ -62,7 +68,7 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
           <ProtectedArtworkImage
             src={painting.imageUrl}
             alt={painting.title}
-            className={`absolute inset-0 w-full h-full object-contain drop-shadow-sm ${imagePaddingClass} ${isUnavailable ? 'opacity-85' : ''}`}
+            className={`absolute inset-0 w-full h-full object-contain drop-shadow-sm ${imagePaddingClass}`}
           />
         </div>
       </div>
@@ -77,9 +83,9 @@ export function ArtworkCard({ painting }: { painting: Painting }) {
         </div>
         
         {/* Keeping the elegant price replacement */}
-        <p className="text-sm font-semibold text-zinc-900">
+        <p className="max-w-32 text-right text-sm font-semibold text-zinc-900">
           {availabilityLabel ? (
-            <span className="text-zinc-400 font-normal italic">{availabilityLabel}</span>
+            <span className="text-zinc-500 font-normal leading-snug">{availabilityLabel}</span>
           ) : (
             `$${painting.price}`
           )}

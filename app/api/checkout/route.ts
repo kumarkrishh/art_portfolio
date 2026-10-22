@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getArtworkDetailImages } from "@/lib/artwork-images";
-import { artworks, CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
+import { artworks, CHECKOUT_TEST_ARTWORK_ID, getArtworkSlug } from "@/lib/data";
 import {
   getConfiguredSiteOrigin,
   getPaymentReadiness,
@@ -172,7 +172,7 @@ export async function POST(request: Request) {
             ],
           }),
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/gallery/${encodeURIComponent(artwork.id)}`,
+      cancel_url: `${origin}/gallery/${encodeURIComponent(getArtworkSlug(artwork.title))}`,
     });
 
     if (!session.url) {

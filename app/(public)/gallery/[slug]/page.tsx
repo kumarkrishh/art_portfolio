@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { TrackedCommissionLink } from "@/components/analytics/tracked-commission-link";
 import { ArtworkImageGallery } from "@/components/gallery/artwork-image-gallery";
 import { ArtworkFrameSelector } from "@/components/gallery/artwork-frame-selector";
@@ -7,23 +7,34 @@ import { ArtworkPrice } from "@/components/gallery/artwork-price";
 import { ArtworkSelectionProvider } from "@/components/gallery/artwork-selection-context";
 import { BuyArtworkButton } from "@/components/gallery/buy-artwork-button";
 import { getArtworkDetailImages } from "@/lib/artwork-images";
-import { artworks } from "@/lib/data";
+import { artworks, getArtworkSlug } from "@/lib/data";
 import { getPaymentReadiness } from "@/lib/payment-config";
 
 export default async function ArtworkDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   
-  const painting = artworks.find(art => art.id === resolvedParams.slug);
+  const painting = artworks.find(
+    (art) => getArtworkSlug(art.title) === resolvedParams.slug || art.id === resolvedParams.slug,
+  );
 
   if (!painting || painting.notForSale) {
     notFound();
+  }
+
+  const canonicalSlug = getArtworkSlug(painting.title);
+  if (resolvedParams.slug !== canonicalSlug) {
+    redirect(`/gallery/${canonicalSlug}`);
   }
 
   // Pre-fill the email subject and body
   const emailSubject = encodeURIComponent(`Inquiry regarding: ${painting.title}`);
   const emailBody = encodeURIComponent(`Hello Sree,\n\nI am interested in purchasing "${painting.title}". Could you please provide more information on availability, shipping, and the purchasing process?\n\nThank you!`);
   const isUnavailable = painting.isSold || painting.notForSale;
-  const availabilityLabel = painting.notForSale ? "Not for Sale" : "Sold";
+  const availabilityLabel = painting.notForSale
+    ? "Not for Sale"
+    : painting.availableToReorder
+      ? "Sold — available to reorder"
+      : "Sold";
   const availabilityButtonLabel = painting.notForSale ? "Not for Sale" : "Artwork Sold";
   const detailImages = getArtworkDetailImages(painting);
   const paymentsReady = getPaymentReadiness().ready;
@@ -52,7 +63,6 @@ export default async function ArtworkDetailsPage({ params }: { params: Promise<{
         <ArtworkImageGallery
           images={detailImages}
           title={painting.title}
-          isUnavailable={Boolean(isUnavailable)}
           orientation={orientation}
         />
 
@@ -115,7 +125,9 @@ export default async function ArtworkDetailsPage({ params }: { params: Promise<{
                     artworkId={painting.id}
                     artworkTitle={painting.title}
                   >
-                    Interested in a similar piece? Commission an artwork.
+                    {painting.availableToReorder
+                      ? "Available to reorder — request this artwork."
+                      : "Interested in a similar piece? Commission an artwork."}
                   </TrackedCommissionLink>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { artworks, CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
+import { artworks, CHECKOUT_TEST_ARTWORK_ID, getArtworkSlug } from "@/lib/data";
 import { getArtworkPreviewUrl } from "@/lib/artwork-images";
 import { ArtworkCard, Painting } from "@/components/gallery/artwork-card";
 
@@ -23,7 +23,7 @@ export default function HomePage() {
     .filter((art): art is NonNullable<typeof art> => art !== undefined) // safety check
     .map((art) => ({
       id: art.id,
-      slug: art.id, 
+      slug: getArtworkSlug(art.title),
       title: art.title,
       collection: art.collection,
       medium: art.medium,
@@ -31,6 +31,7 @@ export default function HomePage() {
       imageUrl: getArtworkPreviewUrl(art.image_url), 
       dimensions: art.dimensions, 
       isSold: art.isSold,
+      availableToReorder: art.availableToReorder,
       notForSale: art.notForSale,
     }));
 

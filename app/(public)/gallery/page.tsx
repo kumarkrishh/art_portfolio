@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ArtworkCard, Painting } from "@/components/gallery/artwork-card";
 import { getArtworkPreviewUrl } from "@/lib/artwork-images";
-import { artworks, CHECKOUT_TEST_ARTWORK_ID } from "@/lib/data";
+import { artworks, CHECKOUT_TEST_ARTWORK_ID, getArtworkSlug } from "@/lib/data";
 
 const SORT_OPTIONS = [
   { value: "featured", label: "Featured" },
@@ -112,7 +112,7 @@ export default function GalleryPage() {
 
   const formattedArtworks: Painting[] = sortedArtworks.map((art) => ({
     id: art.id,
-    slug: art.id, 
+    slug: getArtworkSlug(art.title),
     title: art.title,
     collection: art.collection,
     medium: art.medium,
@@ -120,6 +120,7 @@ export default function GalleryPage() {
     imageUrl: getArtworkPreviewUrl(art.image_url), 
     dimensions: art.dimensions, 
     isSold: art.isSold,
+    availableToReorder: art.availableToReorder,
     notForSale: art.notForSale,
   }));
 
